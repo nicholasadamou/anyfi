@@ -225,7 +225,7 @@ configure_wifi() {
 
 	network={
 		ssid=""
-		psk=""
+		key_mgmt=NONE
 		id_str="$open"
 	}
 	EOL
