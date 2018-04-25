@@ -31,7 +31,7 @@ Install
 Download, review, then execute the script:
 
 ```
-git clone git://github.com/NicholasAdamou/AnyFi.git && cd AnyFi && ./anyfi.sh
+git clone git://github.com/NicholasAdamou/AnyFi.git && cd AnyFi && ./src/setup.sh
 ```
 
 Follow the on-screen directions.
@@ -46,7 +46,7 @@ More Information
 License
 -------
 
-AnyFi is © 2017 Nicholas Adamou.
+AnyFi is © 2018 Nicholas Adamou.
 
 It is free software, and may be redistributed under the terms specified in the [LICENSE] file.
 
