@@ -154,10 +154,6 @@ EOL
   sudo iptables -A FORWARD -i "$STATION" -o "$AP" -m state --state RELATED,ESTABLISHED -j ACCEPT
   sudo iptables -A FORWARD -i "$AP" -o "$STATION" -j ACCEPT
 
-  sudo iptables -t nat -A POSTROUTING -o "$ether" -j MASQUERADE
-  sudo iptables -A FORWARD -i "$ether" -o "$AP" -m state --state RELATED,ESTABLISHED -j ACCEPT
-  sudo iptables -A FORWARD -i "$AP" -o "$ether" -j ACCEPT
-
   sudo sh -c "iptables-save > /etc/iptables.ipv4.nat"
   sudo sudo systemctl enable netfilter-persistent
 
