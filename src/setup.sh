@@ -37,7 +37,7 @@ setup_anyfi() {
   echo "$(tput setaf 6)This script will configure your Raspberry Pi as a wireless access point and to connect to any OPEN WiFi access point.$(tput sgr0)"
   
   if [ "$TRAVIS" != "true" ]; then
-    read -p "$(tput bold ; tput setaf 2)Press [Enter] to begin, [Ctrl-C] to abort...$(tput sgr0)"
+    read -r -p "$(tput bold ; tput setaf 2)Press [Enter] to begin, [Ctrl-C] to abort...$(tput sgr0)"
   fi
 
   update
@@ -75,7 +75,7 @@ EOL
   FILE=/etc/default/isc-dhcp-server
   sudo cp "$FILE" "$FILE".bak
 
-  sed -i -e 's/INTERFACES=""/INTERFACES="$AP"/g' "$FILE"
+  sed -i -e "s/INTERFACES=\"\"/INTERFACES=\"$AP\"/g" "$FILE"
 
   FILE=/etc/network/interfaces
 
@@ -143,10 +143,10 @@ EOL
 
   FILE=/etc/sysctl.conf
   sudo cp "$FILE" "$FILE".bak
-  sudo echo "net.ipv4.ip_forward=1" >> "$FILE"
+  echo "net.ipv4.ip_forward=1" >> "$FILE"
 
   FILE=/etc/network/interfaces
-  sudo echo "up iptables-restore < /etc/iptables.ipv4.nat" >> "$FILE"
+  echo "up iptables-restore < /etc/iptables.ipv4.nat" >> "$FILE"
 
   sudo sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
 
