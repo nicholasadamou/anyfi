@@ -1,4 +1,4 @@
-AnyFi
+AnyFi [![Build Status](https://travis-ci.org/nicholasadamou/AnyFi.svg?branch=master)](https://travis-ci.org/nicholasadamou/AnyFi)
 ========
 ![logo](logo.png)
 
