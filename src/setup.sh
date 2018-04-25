@@ -50,7 +50,7 @@ setup_anyfi() {
       install_package "$PKG" "$PKG"
   done
 
-  x=/etc/dhcp/dhcpd.conf
+  FILE=/etc/dhcp/dhcpd.conf
   cp "$FILE" "$FILE".bak
 
   sed -i -e 's/option domain-name "example.org"/# option domain-name "example.org"/g' "$FILE"
