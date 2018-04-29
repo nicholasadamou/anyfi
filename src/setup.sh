@@ -62,13 +62,13 @@ setup_anyfi() {
 
   cat > "$FILE" <<- EOL
 	subnet 192.168.42.0 netmask 255.255.255.0 {
-  range 192.168.42.10 192.168.42.50;
-  option broadcast-address 192.168.42.255;
-  option routers 192.168.42.1;
-  default-lease-time 600;
-  max-lease-time 7200;
-  option domain-name \042local\042;
-  option domain-name-servers 8.8.8.8, 8.8.4.4;
+	range 192.168.42.10 192.168.42.50;
+	option broadcast-address 192.168.42.255;
+	option routers 192.168.42.1;
+	default-lease-time 600;
+	max-lease-time 7200;
+	option domain-name \042local\042;
+	option domain-name-servers 8.8.8.8, 8.8.4.4;
   }
 EOL
 
@@ -85,18 +85,18 @@ EOL
   cat > "$FILE" <<- EOL
 	auto lo
 
-  iface lo inet loopback
-  iface eth0 inet dhcp
+	iface lo inet loopback
+	iface eth0 inet dhcp
 
-  allow-hotplug $AP
-  iface $AP inet static
-    address 192.168.42.1
-    netmask 255.255.255.0
+	allow-hotplug $AP
+	iface $AP inet static
+		address 192.168.42.1
+		netmask 255.255.255.0
 
-  allow-hotplug $STATION
-  iface $STATION inet dhcp
-  wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
-	iface $OPEN inet dhcp
+	allow-hotplug $STATION
+	iface $STATION inet dhcp
+	wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+		iface $OPEN inet dhcp
 EOL
 
   sudo ifconfig "$AP" 192.168.42.1
@@ -121,20 +121,20 @@ EOL
       fi
   fi
 
-  cat > "$FILE" << EOL
+  cat > "$FILE" <<- EOL
 	interface=$AP
-  driver=rtl871xdrv
-  ssid=$SSID
-  hw_mode=g
-  channel=6
-  macaddr_acl=0
-  auth_algs=1
-  ignore_broadcast_ssid=0
-  wpa=2
-  wpa_passphrase=$PASSWD1
-  wpa_key_mgmt=WPA2-PSK
-  wpa_pairwise=TKIP
-  rsn_pairwise=CCMP
+	driver=rtl871xdrv
+	ssid=$SSID
+	hw_mode=g
+	channel=6
+	macaddr_acl=0
+	auth_algs=1
+	ignore_broadcast_ssid=0
+	wpa=2
+	wpa_passphrase=$PASSWD1
+	wpa_key_mgmt=WPA2-PSK
+	wpa_pairwise=TKIP
+	rsn_pairwise=CCMP
 EOL
 
   FILE=/etc/default/hostapd
