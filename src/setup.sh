@@ -3,7 +3,7 @@
 # Auto Connect to any Open WiFi network via CLI Command Line
 # see: https://unix.stackexchange.com/questions/250562/auto-connect-to-any-open-wifi-network-via-cli-command-line
 
-declare BASH_UTILS_URL="https://raw.githubusercontent.com/nicholasadamou/bash-utils/master/utils.sh"
+declare BASH_UTILS_URL="https://raw.githubusercontent.com/nicholasadamou/Dotfile-Utilities/master/utils.sh"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
