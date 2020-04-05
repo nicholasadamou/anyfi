@@ -53,16 +53,16 @@ setup_anyfi() {
   sudo sed -i -e 's/option domain-name-servers ns1.example.org/# option domain-name-servers ns1.example.org/g' "$FILE"
   sudo sed -i -e 's/#authoritative;/authoritative;/g' "$FILE"
 
-  cat > "$FILE" <<- EOL
-	subnet 192.168.42.0 netmask 255.255.255.0 {
-		range 192.168.42.10 192.168.42.50;
-		option broadcast-address 192.168.42.255;
-		option routers 192.168.42.1;
-		default-lease-time 600;
-		max-lease-time 7200;
-		option domain-name \042local\042;
-		option domain-name-servers 8.8.8.8, 8.8.4.4;
-	}
+  sudo bash -c "cat > $FILE" <<-EOL
+subnet 192.168.42.0 netmask 255.255.255.0 {
+	range 192.168.42.10 192.168.42.50;
+	option broadcast-address 192.168.42.255;
+	option routers 192.168.42.1;
+	default-lease-time 600;
+	max-lease-time 7200;
+	option domain-name \042local\042;
+	option domain-name-servers 8.8.8.8, 8.8.4.4;
+}
 EOL
 
   FILE=/etc/default/isc-dhcp-server
@@ -75,21 +75,22 @@ EOL
   sudo ifdown "$AP"
 
   sudo mv "$FILE" "$FILE".bak
-  cat > "$FILE" <<- EOL
-	auto lo
+  
+  sudo bash -c "cat > $FILE" <<-EOL
+auto lo
 
-	iface lo inet loopback
-	iface eth0 inet dhcp
+iface lo inet loopback
+iface eth0 inet dhcp
 
-	allow-hotplug $AP
-	iface $AP inet static
-		address 192.168.42.1
-		netmask 255.255.255.0
+allow-hotplug $AP
+iface $AP inet static
+	address 192.168.42.1
+	netmask 255.255.255.0
 
-	allow-hotplug $STATION
-	iface $STATION inet dhcp
-	wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
-		iface $OPEN inet dhcp
+allow-hotplug $STATION
+iface $STATION inet dhcp
+wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+	iface $OPEN inet dhcp
 EOL
 
   sudo ifconfig "$AP" 192.168.42.1
@@ -119,20 +120,20 @@ EOL
       print_success "Password set. Edit $FILE to change."
   fi
 
-  cat > "$FILE" <<- EOL
-	interface=$AP
-	driver=rtl871xdrv
-	ssid=$SSID
-	hw_mode=g
-	channel=6
-	macaddr_acl=0
-	auth_algs=1
-	ignore_broadcast_ssid=0
-	wpa=2
-	wpa_passphrase=$PASSWD1
-	wpa_key_mgmt=WPA2-PSK
-	wpa_pairwise=TKIP
-	rsn_pairwise=CCMP
+  sudo bash -c "cat > $FILE" <<-EOL
+interface=$AP
+driver=rtl871xdrv
+ssid=$SSID
+hw_mode=g
+channel=6
+macaddr_acl=0
+auth_algs=1
+ignore_broadcast_ssid=0
+wpa=2
+wpa_passphrase=$PASSWD1
+wpa_key_mgmt=WPA2-PSK
+wpa_pairwise=TKIP
+rsn_pairwise=CCMP
 EOL
 
   FILE=/etc/default/hostapd
@@ -174,15 +175,15 @@ EOL
 
   FILE=/etc/wpa_supplicant/wpa_supplicant.conf
 
-	cat > "$FILE" <<- EOL
-	ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
-	update_config=1
+  sudo bash -c "cat > $FILE" <<-EOL
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
 
-	network={
-		ssid=""
-		key_mgmt=NONE
-		id_str="$OPEN"
-	}
+network={
+	ssid=""
+	key_mgmt=NONE
+	id_str="$OPEN"
+}
 EOL
 
   sudo chmod 600 "$FILE"
