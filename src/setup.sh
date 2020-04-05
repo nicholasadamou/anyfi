@@ -7,11 +7,6 @@ declare BASH_UTILS_URL="https://raw.githubusercontent.com/nicholasadamou/utiliti
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-declare skipQuestions=false
-
-trap "exit 1" TERM
-export TOP_PID=$$
-
 declare APP_NAME="Raspberry AnyFi"
 declare MONIKER="4d4m0u"
 
@@ -35,10 +30,8 @@ setup_anyfi() {
   "
 
   echo "$(tput setaf 6)This script will configure your Raspberry Pi as a wireless access point and to connect to any OPEN WiFi access point.$(tput sgr0)"
-  
-  if [ "$TRAVIS" != "true" ]; then
-    read -r -p "$(tput bold ; tput setaf 2)Press [Enter] to begin, [Ctrl-C] to abort...$(tput sgr0)"
-  fi
+
+  read -r -p "$(tput bold ; tput setaf 2)Press [Enter] to begin, [Ctrl-C] to abort...$(tput sgr0)"
 
   update
   upgrade
@@ -50,7 +43,7 @@ setup_anyfi() {
   )
 
   for PKG in "${PKGS[@]}"; do
-      install_package "$PKG" "$PKG"
+      install_package "$PKG"
   done
 
   FILE=/etc/dhcp/dhcpd.conf
@@ -103,23 +96,21 @@ EOL
 
   FILE=/etc/hostapd/hostapd.conf
 
-  if [ "$TRAVIS" != "true" ]; then
-      print_question "Enter an SSID for the HostAPD Hotspot: "
-      SSID="$(read -r)"
+	print_question "Enter an SSID for the HostAPD Hotspot: "
+	SSID="$(read -r)"
 
-      PASSWD1="0"
-      PASSWD2="1"
-      until [ $PASSWD1 == $PASSWD2 ]; do
-          print_question "Type a password to access your $SSID, then press [ENTER]: "
-          read -s -r PASSWD1
-          print_question "Verify password to access your $SSID, then press [ENTER]: "
-          read -s -r PASSWD2
-      done
+	PASSWD1="0"
+	PASSWD2="1"
+	until [ $PASSWD1 == $PASSWD2 ]; do
+			print_question "Type a password to access your $SSID, then press [ENTER]: "
+			read -s -r PASSWD1
+			print_question "Verify password to access your $SSID, then press [ENTER]: "
+			read -s -r PASSWD2
+	done
 
-      if [ "$PASSWD1" == "$PASSWD2" ]; then
-          print_success "Password set. Edit $FILE to change."
-      fi
-  fi
+	if [ "$PASSWD1" == "$PASSWD2" ]; then
+			print_success "Password set. Edit $FILE to change."
+	fi
 
   cat > "$FILE" <<- EOL
 	interface=$AP
@@ -199,7 +190,7 @@ EOL
 
 restart() {
     ask_for_confirmation "Do you want to restart?"
-    
+
     if answer_is_yes; then
         sudo shutdown -r now &> /dev/null
     fi
@@ -215,11 +206,6 @@ main() {
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    skip_questions "$@" \
-        && skipQuestions=true
-
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
     ask_for_sudo
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -227,10 +213,8 @@ main() {
     setup_anyfi
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    
-    if ! $skipQuestions; then
-        restart
-    fi
+
+    restart
 }
 
-main "$@"
+main
