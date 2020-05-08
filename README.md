@@ -43,7 +43,7 @@ More Information
 License
 -------
 
-AnyFi is © 2018 Nicholas Adamou.
+AnyFi is © Nicholas Adamou.
 
 It is free software, and may be redistributed under the terms specified in the [LICENSE] file.
 
